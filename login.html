@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Authentication</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            box-shadow: 0px 0px 10px 0px gray;
+            text-align: center;
+            border-radius: 10px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+        }
+        button {
+            padding: 10px;
+            background: blue;
+            color: white;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+        .toggle-link {
+            margin-top: 10px;
+            cursor: pointer;
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 id="formTitle">Login</h2>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" required>
+        </div>
+        <button id="submitBtn" onclick="loginUser()">Login</button>
+        <div class="toggle-link">
+            <a id="toggleText" onclick="toggleForm()">Don't have an account? Register</a>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBIOjJBd45eJg3B6iV15vJucbtRLlytpH0",
+            authDomain: "medicene-9b4be.firebaseapp.com",
+            databaseURL: "https://medicene-9b4be-default-rtdb.firebaseio.com",
+            projectId: "medicene-9b4be",
+            storageBucket: "medicene-9b4be.appspot.com",
+            messagingSenderId: "496474678855",
+            appId: "1:496474678855:web:5f4d54d360b7b908307362",
+            measurementId: "G-J8YZRZDMQW"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth();
+
+        async function registerUser() {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            try {
+                await createUserWithEmailAndPassword(auth, email, password);
+                alert("You have successfully registered");
+                toggleForm();
+            } catch (error) {
+                alert(error.message);
+            }
+        }
+
+        async function loginUser() {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                alert("Login successful!");
+                window.location.href = "form.html";
+            } catch (error) {
+                alert(error.message);
+            }
+        }
+
+        function toggleForm() {
+            const isLogin = document.getElementById("submitBtn").innerText === "Login";
+            document.getElementById("formTitle").innerText = isLogin ? "Register" : "Login";
+            document.getElementById("submitBtn").innerText = isLogin ? "Register" : "Login";
+            document.getElementById("toggleText").innerText = isLogin ? "Already have an account? Login" : "Don't have an account? Register";
+            document.getElementById("submitBtn").setAttribute("onclick", isLogin ? "registerUser()" : "loginUser()");
+        }
+
+        window.registerUser = registerUser;
+        window.loginUser = loginUser;
+        window.toggleForm = toggleForm;
+    </script>
+</body>
+</html>
