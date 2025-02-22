@@ -10,17 +10,16 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
         import { getDatabase, ref, set, push } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-database.js";
 
-   // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyBIOjJBd45eJg3B6iV15vJucbtRLlytpH0",
-  authDomain: "medicene-9b4be.firebaseapp.com",
-  databaseURL: "https://medicene-9b4be-default-rtdb.firebaseio.com",
-  projectId: "medicene-9b4be",
-  storageBucket: "medicene-9b4be.firebasestorage.app",
-  messagingSenderId: "496474678855",
-  appId: "1:496474678855:web:5f4d54d360b7b908307362",
-  measurementId: "G-J8YZRZDMQW"
-};
+        const firebaseConfig = {
+            apiKey: "AIzaSyBIOjJBd45eJg3B6iV15vJucbtRLlytpH0",
+            authDomain: "medicene-9b4be.firebaseapp.com",
+            databaseURL: "https://medicene-9b4be-default-rtdb.firebaseio.com",
+            projectId: "medicene-9b4be",
+            storageBucket: "medicene-9b4be.firebasestorage.app",
+            messagingSenderId: "496474678855",
+            appId: "1:496474678855:web:5f4d54d360b7b908307362",
+            measurementId: "G-J8YZRZDMQW"
+        };
 
         const app = initializeApp(firebaseConfig);
         const database = getDatabase(app);
@@ -32,6 +31,7 @@ const firebaseConfig = {
                 e.preventDefault();
                 
                 const patientData = {
+                    Patient_Name: document.getElementById("patientName").value,
                     Blood_Pressure_Systolic: parseInt(document.getElementById("bps").value),
                     Blood_Pressure_Diastolic: parseInt(document.getElementById("bpd").value),
                     Cholesterol_Level: parseFloat(document.getElementById("cholesterol").value),
@@ -122,6 +122,9 @@ const firebaseConfig = {
     <div class="container">
         <h2>Patient Health Form</h2>
         <form id="patientForm">
+            <label>Patient Name:</label>
+            <input type="text" id="patientName" required>
+
             <label>Blood Pressure Systolic:</label>
             <input type="number" id="bps" required>
 
